@@ -21,64 +21,42 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.mycomposeapp.ui.theme.MyComposeAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                ListItem(name = "Ivan", prof = "Mobile Developer")
-                ListItem(name = "Ivan", prof = "Mobile Developer")
-                ListItem(name = "Ivan", prof = "Mobile Developer")
-                ListItem(name = "Ivan", prof = "Mobile Developer")
-                ListItem(name = "Ivan", prof = "Mobile Developer")
-                ListItem(name = "Ivan", prof = "Mobile Developer")
-                ListItem(name = "Ivan", prof = "Mobile Developer")
-                ListItem(name = "Ivan", prof = "Mobile Developer")
-                ListItem(name = "Ivan", prof = "Mobile Developer")
-                ListItem(name = "Ivan", prof = "Mobile Developer")
-                ListItem(name = "Ivan", prof = "Mobile Developer")
-                ListItem(name = "Ivan", prof = "Mobile Developer")
+            Box(modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center) {
+                CircleItem()
             }
         }
     }
 }
 @Composable
-private fun ListItem(name: String, prof: String) {
+private fun CircleItem() {
     var counter = remember {
         mutableStateOf(0)
     }
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp)
-            .clickable {
-                counter.value++
-            },
-        shape = RoundedCornerShape(15.dp),
-        elevation = 5.dp
-        ) {
-        Box() {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(  painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                        contentDescription = "image",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .size(64.dp)
-                            .clip(CircleShape)
-                            .background(Color.Red)
-                )
+    var color = remember {
+        mutableStateOf(Color.Blue)
+    }
 
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(text = counter.value.toString())
-                    Text(text = prof)
-                }
+    Box(modifier = Modifier
+        .size(100.dp)
+        .background(color = color.value, shape = CircleShape).clickable {
+            when(++counter.value) {
+                10 -> color.value = Color.Red
+                20 -> color.value = Color.Cyan
             }
-        }
+        },
+        contentAlignment = Alignment.Center) {
+        Text(text = counter.value.toString(), style = TextStyle(Color.White, fontSize = 20.sp))
     }
 }
 
